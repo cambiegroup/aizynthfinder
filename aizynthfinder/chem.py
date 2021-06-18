@@ -180,10 +180,8 @@ class Molecule:
         if self._is_sanitized:
             return
 
-        try:
-            AllChem.SanitizeMol(self.rd_mol)
-        # pylint: disable=bare-except
-        except:  # noqa, there could be many reasons why the molecule cannot be sanitized
+        sanitizeflags = AllChem.SanitizeMol(self.rd_mol, catchErrors=True)
+        if sanitizeflags != 0:
             if raise_exception:
                 raise MoleculeException(f"Unable to sanitize molecule ({self.smiles})")
             self.rd_mol = Chem.MolFromSmiles(self.smiles, sanitize=False)
