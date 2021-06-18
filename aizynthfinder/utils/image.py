@@ -42,11 +42,7 @@ IMAGE_FOLDER = tempfile.mkdtemp()
 @atexit.register
 def _clean_up_images() -> None:
     global IMAGE_FOLDER
-    try:
-        shutil.rmtree(IMAGE_FOLDER, ignore_errors=True)
-    # pylint: disable=broad-except
-    except Exception:  # noqa Don't care if we fail clean-up
-        pass
+    shutil.rmtree(IMAGE_FOLDER, ignore_errors=True)
 
 
 def molecule_to_image(mol: Molecule, frame_color: PilColor) -> PilImage:
